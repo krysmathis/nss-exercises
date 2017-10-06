@@ -1,4 +1,4 @@
-const scores = [82, 71, 62, 95, 55, 98, 69, 72, 78, 84, 64, 58, 87, 60]
+const scores = [82, 71, 62, 95, 55, 98, 88, 69, 72, 78, 84, 64, 58, 87, 60, 78, 85]
 const grades = { "A": 0, "B": 0, "C":0,"D":0,"F":0} // You'll need to change this line of code
 
 for (let i = 0; i < scores.length; i++) {
@@ -55,12 +55,13 @@ console.log("Grade(s) achieved by the most students:");
 console.log(gradesWithMaxCount);
 
 //Grades with min count
-let currentMinGradeCount = 0;
+let currentMinGradeCount = scores.length;
 for(let grade in grades) {
-    if (grades[grade] < currentGradeCount) {
+    if (grades[grade] < currentMinGradeCount) {
         currentMinGradeCount = grades[grade];
     }
 }
+
 
 let minCount = currentMinGradeCount;
 let gradesWithMinCount = [];
