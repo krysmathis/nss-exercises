@@ -1,33 +1,38 @@
-const scores = [82, 71, 62, 95, 55, 98, 69, 72, 78, 84, 64, 58, 87, 60,75,56]
+const scores = [82, 71, 62, 95, 55, 98, 69, 72, 78, 84, 64, 58, 87, 60, 75, 56]
 const grades = { "A": 0, "B": 0, "C":0,"D":0,"F":0} // You'll need to change this line of code
 
-for (let i = 0; i < scores.length; i++) {
-    /*
-      If the score is greater than 90, increment grades.A by 1.
+var convertScoresToGrades = (function() {
 
-      You can use a series of `if/then` blocks, but you could
-      also achieve this with a switch statement.
-    */
-    const grade = scores[i];
+    for (let i = 0; i < scores.length; i++) {
+        /*
+          If the score is greater than 90, increment grades.A by 1.
     
-    switch (true) {
-        case (grade >= 91):
-            grades['A'] += 1;
-            break;
-        case (grade >= 81):
-            grades['B'] += 1;
-            break;
-        case (grade >=71):
-            grades['C'] += 1;
-            break;
-        case (grade >=61):
-            grades['D'] += 1;
-            break;
-        default:
-            grades['F'] += 1;
-            break;
-    }
-};
+          You can use a series of `if/then` blocks, but you could
+          also achieve this with a switch statement.
+        */
+        const grade = scores[i];
+        
+        switch (true) {
+            case (grade >= 91):
+                grades['A'] += 1;
+                break;
+            case (grade >= 81):
+                grades['B'] += 1;
+                break;
+            case (grade >=71):
+                grades['C'] += 1;
+                break;
+            case (grade >=61):
+                grades['D'] += 1;
+                break;
+            default:
+                grades['F'] += 1;
+                break;
+        }
+    };
+}());
+
+
 
 grades.getGradeFrequency = function() {
     const gradingScale = ['A', 'B', 'C','D', 'F'];
