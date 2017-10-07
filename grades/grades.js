@@ -1,4 +1,4 @@
-const scores = [82, 71, 62, 95, 55, 98, 69, 72, 78, 84, 64, 58, 87, 60]
+const scores = [82, 71, 62, 95, 55, 98, 69, 72, 78, 84, 64, 58, 87, 60,75,56]
 const grades = { "A": 0, "B": 0, "C":0,"D":0,"F":0} // You'll need to change this line of code
 
 for (let i = 0; i < scores.length; i++) {
@@ -45,9 +45,7 @@ grades.getGradeFrequency = function() {
 grades.getMinScore = (scores) => scores.sort()[0];
 grades.getMaxScore = (scores) => scores.sort((f,l) => l-f)[0];
 
-console.log(grades.getMaxScore(scores));
-
-grades.maxGradeFreqency = function() {
+grades.maxGradeFrequency = function() {
     //Grades with max count
     let currentGradeCount = 0;
     for(let grade in grades) {
@@ -60,8 +58,8 @@ grades.maxGradeFreqency = function() {
 
 grades.minGradeFrequency = function() {
     //Capture the least occurring frequency
-    let minCount = this.maxGradeFreqency();
-    console.log(minCount)
+    let minCount = this.maxGradeFrequency();
+    
     for(let grade in grades) {
         if (grades[grade] < minCount) {
             minCount = grades[grade];
@@ -72,7 +70,7 @@ grades.minGradeFrequency = function() {
 
 grades.maxFrequencyGrades = function() {
     
-    let maxCount = this.maxGradeFreqency();
+    let maxCount = this.maxGradeFrequency();
     
     let gradesWithMaxCount = [];
     for(let grade in grades) {
@@ -94,13 +92,13 @@ grades.minFrequencyGrades = function() {
         }
     }
     return minOccurances;
-}
+};
 
 console.log("How many of each grade:")
 grades.getGradeFrequency();
 console.log(`Lowest score: ${grades.getMinScore(scores)}`);
 console.log(`Highest score: ${grades.getMaxScore(scores)}`);
-console.log("Grade(s) achieved by the most students:");
+console.log(`Grade(s) achieved by the most students, ${grades.maxGradeFrequency()} each:`);
 console.log(grades.maxFrequencyGrades());
-console.log("The fewest students achieved:");
+console.log(`The fewest students achieved, ${grades.minGradeFrequency()} each:`);
 console.log(grades.minFrequencyGrades());
