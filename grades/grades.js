@@ -1,4 +1,4 @@
-const scores = [82, 71, 62, 95, 55, 98, 88, 69, 72, 78, 84, 64, 58, 87, 60, 78, 85]
+const scores = [82, 71, 62, 95, 55, 98, 69, 72, 78, 84, 64, 58, 87, 60]
 const grades = { "A": 0, "B": 0, "C":0,"D":0,"F":0} // You'll need to change this line of code
 
 for (let i = 0; i < scores.length; i++) {
@@ -27,51 +27,80 @@ for (let i = 0; i < scores.length; i++) {
             grades['F'] += 1;
             break;
     }
+};
+
+grades.getGradeFrequency = function() {
+    const gradingScale = ['A', 'B', 'C','D', 'F'];
+
+    for(let grade in grades) {
+        let inList = gradingScale.indexOf(grade) > -1;
+        
+        if (inList) {
+            console.log(`${grade}: ${grades[grade]}`);
+        }
+    }
+};
+
+
+grades.getMinScore = (scores) => scores.sort()[0];
+grades.getMaxScore = (scores) => scores.sort((f,l) => l-f)[0];
+
+console.log(grades.getMaxScore(scores));
+
+grades.maxGradeFreqency = function() {
+    //Grades with max count
+    let currentGradeCount = 0;
+    for(let grade in grades) {
+        if (grades[grade] > currentGradeCount) {
+            currentGradeCount = grades[grade];
+        }
+    }
+    return currentGradeCount;
+};
+
+grades.minGradeFrequency = function() {
+    //Capture the least occurring frequency
+    let minCount = this.maxGradeFreqency();
+    console.log(minCount)
+    for(let grade in grades) {
+        if (grades[grade] < minCount) {
+            minCount = grades[grade];
+        }
+    }
+    return minCount;
+};
+
+grades.maxFrequencyGrades = function() {
+    
+    let maxCount = this.maxGradeFreqency();
+    
+    let gradesWithMaxCount = [];
+    for(let grade in grades) {
+        if (grades[grade] === maxCount) {
+            gradesWithMaxCount.push(grade);
+        }
+    }
+    return gradesWithMaxCount;
+};
+
+grades.minFrequencyGrades = function() {
+    
+    let minCount = this.minGradeFrequency();
+    let minOccurances = [];
+    
+    for(let grade in this) {
+        if (grades[grade] === minCount) {
+            minOccurances.push(grade);
+        }
+    }
+    return minOccurances;
 }
 
 console.log("How many of each grade:")
-console.log(grades)
-minScore = scores.sort();
-console.log(`Lowest score: ${minScore[0]}`);
-maxScore = scores.sort((f,l) => l-f);
-console.log(`Highest score: ${maxScore[0]}`);
-
-//Grades with max count
-let currentGradeCount = 0;
-for(let grade in grades) {
-    if (grades[grade] > currentGradeCount) {
-        currentGradeCount = grades[grade];
-    }
-}
-let maxCount = currentGradeCount;
-
-let gradesWithMaxCount = [];
-for(let grade in grades) {
-    if (grades[grade] === maxCount) {
-        gradesWithMaxCount.push(grade);
-    }
-}
+grades.getGradeFrequency();
+console.log(`Lowest score: ${grades.getMinScore(scores)}`);
+console.log(`Highest score: ${grades.getMaxScore(scores)}`);
 console.log("Grade(s) achieved by the most students:");
-console.log(gradesWithMaxCount);
-
-//Grades with min count
-let currentMinGradeCount = scores.length;
-for(let grade in grades) {
-    if (grades[grade] < currentMinGradeCount) {
-        currentMinGradeCount = grades[grade];
-    }
-}
-
-
-let minCount = currentMinGradeCount;
-let gradesWithMinCount = [];
-for(let grade in grades) {
-    if (grades[grade] === minCount) {
-        gradesWithMinCount.push(grade);
-    }
-}
+console.log(grades.maxFrequencyGrades());
 console.log("The fewest students achieved:");
-console.log(gradesWithMinCount);
-
-
-
+console.log(grades.minFrequencyGrades());
