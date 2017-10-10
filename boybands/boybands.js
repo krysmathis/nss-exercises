@@ -7,7 +7,6 @@ const bandElement = document.getElementById("boy-bands");
 // Get a reference to the appropriate DOM element for vegetables
 const veggieElement = document.getElementById("vegetables");
 
-
 for (let loopTracker = 0; loopTracker < bands.length; loopTracker += 1) { 
   // Get a reference to the current item in the bands array
   const currentBand = bands[loopTracker];
