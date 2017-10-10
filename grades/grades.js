@@ -64,6 +64,7 @@ grades.maxGradeFrequency = function() {
     return currentGradeCount;
 };
 
+
 // Returns the lowest # of students that received a grade
 grades.minGradeFrequency = function() {
     //Capture the least occurring frequency
@@ -89,7 +90,7 @@ grades.maxFrequencyGrades = function() {
     for(let grade in grades) {
         let inScale = this.gradingScale.indexOf(grade) > -1;
         if (grades[grade] === maxCount && inScale) {
-            gradesWithMaxCount.push(grade);
+            gradesWithMaxCount.push({"grade":grade,"freq": grades[grade]});
         }
     }
     return gradesWithMaxCount;
@@ -106,7 +107,7 @@ grades.minFrequencyGrades = function() {
     for(let grade in grades) {
         let inScale = this.gradingScale.indexOf(grade) > -1;
         if (grades[grade] === minCount && inScale) {
-            minOccurances.push(grade);
+            minOccurances.push({"grade":grade,"freq": grades[grade]});
         }
     }
     return minOccurances;
