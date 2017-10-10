@@ -1,0 +1,29 @@
+.inventory {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.inventory h2 {
+    font-size: 1.25em;
+    font-weight: bold;
+}
+.electronics,
+.furniture,
+.artwork {
+    border: 1px solid darkgray;
+    width: 100%;
+    padding: 10px;
+}
+
+.electronics {
+    background-color: #D4C5E2
+}
+
+.furniture {
+    background-color: #C9D7F8
+}
+
+.artwork {
+    background-color: #A7E2E3
+}
