@@ -1,0 +1,87 @@
+/* 
+1. Currently, the <li> items are block level elements. Add correct styles to remove the bullets and display them as inline elements. 
+*/
+.block {
+    display: inline;
+    list-style: none;
+}
+
+/* 
+2. The three <span> elements should be displayed as block elements with a 1 pixel border and 25 pixel margin on all sides. 
+*/
+.inline {
+    display: block;
+    border: 1px solid;
+    margin: 25px;
+}
+/* 
+3. In the article element with the class n-child, add a 1 pixel border around every even numbered section element. 
+*/
+.n-child section:nth-of-type(even) {
+    border: 1px solid black;
+}
+
+/* 
+4. Change the top ul content to be displayed inline, with a comma between the three numbers. 
+*/
+.top li:not(:last-child)::after {
+    content: ",";
+}
+
+/* 
+5. In the article element with the class n-type, make each odd section's font color blue. 
+*/
+.n-type section:nth-of-type(odd) {
+    color: blue;
+}
+
+/* 
+6. In the article element with the class first-of-type, make the first aside element's background color lime. 
+*/
+.first-of-type aside:first-of-type {
+    background: lime;
+}
+
+/* 
+7. In the article element with the class first-of-type, make the first section element's background color purple. 
+*/
+.first-of-type section:first-of-type {
+    background: purple;
+}
+
+/* 
+8. In the article element with the class three, give each section a background color of orange. 
+*/
+.three section {
+    background-color: orange;
+}
+
+/* 
+9. In the article element with the class three, give the first child element, regardless of type, a background color of goldenrod. 
+*/
+.three > :first-child {
+    background-color: goldenrod;
+}
+
+/* 
+10. In the article element with the class three, give the last child element, regardless of type, a background color of darkslategray. 
+*/
+.three :last-child {
+    background-color: darkslategray;
+}
+
+/* 
+11. Give each article element a title of "Article parent element", a dashed gray border, and a background color of royalblue. Also ensure that it spans the entire length of the document. 
+*/
+
+article:before {
+    
+    content: 'Article partent element';
+    width: calc(100% - 2px);
+    border: 1px dashed gray;
+    background-color: royalblue;
+    display: inline-block;
+
+
+}
+
