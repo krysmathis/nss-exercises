@@ -1,0 +1,154 @@
+<html lang='en'>
+
+<head>
+  <meta charset='utf-8'>
+  <title>Pseudo Class Events</title>
+  <link rel='stylesheet' href='./styles.css'>
+</head>
+
+<body>
+  <h1>Navigation Bar Exercise</h1>
+  <h2>Using Flexbox</h2>
+  <nav id="flex-box">
+    <ul id="nav-flex-container">
+      <li>Link1</li>
+      <li>Link2</li>
+      <li>Link3</li>
+      <li>Link4</li>
+      <li>Link5</li>
+    </ul>
+  </nav>
+  <h2>Using Grid</h2>
+  <p>Don't recommend this approach</p>
+  <nav id="grid-box">
+    <ul id="nav-grid-container">
+        <li>Link1</li>
+        <li>Link2</li>
+        <li>Link3</li>
+        <li>Link4</li>
+        <li>Link5</li>
+    </ul>
+  </nav>
+  <main class='main-content'>
+    <h2>CSS code for this page</h2>
+    <pre>
+        <code>
+            @import url('https://fonts.googleapis.com/css?family=Roboto');
+            
+            /*
+                Create a navigation bar out of an unordered list element, and add the following interactivity.
+            */
+            
+            body {
+                padding: 0;
+                margin: 0;
+                box-sizing: border box;
+                font-family: 'Roboto', sans-serif;
+            }
+            
+            nav {
+                padding-top: 25px;
+                padding-bottom: 25px;
+                background-color: #468CBC
+            }
+            
+            h1 {
+                padding: 10px;
+            }
+            
+            h2 {
+                padding: 10px;
+                border-bottom: 1px solid lightgray;
+            }
+            
+            p {
+                padding: 10px;
+            }
+            
+            pre {
+                margin: 20px;
+                padding: 20px;
+                background: lightgray;
+            }
+            
+            nav ul li {
+                display: inline-block;
+                background-color: white;
+                list-style: none;
+                margin: 0px;
+                margin-left: 20px;
+                margin-right: 20px;
+                padding: 20px;
+                border: 1px solid black;
+                transition: all .2s ease-in-out;
+                width: 100px;
+                text-align: center;
+            }
+            
+            #nav-flex-container {
+                padding: 0;
+                margin: 0;
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+            }
+            
+            #grid-box {
+                display: flex;
+                justify-content: center;
+                margin: 0;
+                padding: 0;
+            }
+            
+            #nav-grid-container {
+                display: grid;
+                padding: 0;
+                margin: 20;
+                grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+                grid-template-rows: 1fr;
+                grid-gap: 20px;
+                grid-auto-flow: column;
+            }
+            
+            
+            /* 
+                When the user hovers over one of the links, the color of the text should change.
+            
+                When the user hovers over one of the links, the background color of the element that contains the link should change. 
+            */
+            nav ul li:hover {
+                background-color:#52bab3;
+                color: white;
+            }
+            
+            
+            /* 
+                When the user clicks on one of the links, the element that contains the link should grow <br> in size by 5px on the left and right. 
+            */
+            
+            nav ul li:active {
+                width: 110px;
+            }
+            
+            @media (max-width: 600px) {
+                nav {
+                    text-align: center;
+                }
+                #nav-flex-container {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                }
+                #nav-flex-container li {
+                    align-items: center;
+                }
+            }   
+      </code>
+    </pre>
+    <header></header>
+    <article></article>
+  </main>
+  <footer></footer>
+  <script src='event-pseudoclasses.js'></script>
+
+</html>
