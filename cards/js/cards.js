@@ -24,7 +24,7 @@ document.querySelector("#container-cards").addEventListener("click", function(ev
         cardContainer.removeChild(cardEl);
 
     }
-})
+});
 
 
 // Generator function for unique id

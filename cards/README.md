@@ -3,6 +3,17 @@ In this exercise we want the user to be able to create cards by typing in a text
 
 We want the cares to have a delete button on each one that will delete only that card
 
+## Extending the example with keyUp
+You could extend the card exercise by checking for the keyup event
+```javascript
+document.querySelector("#textArea").addEventListener("keyup", function(event) {
+    // do something with it or check where it came from
+    alert(event.keyCode);
+
+});
+
+```
+
 ## TextArea
 To access what's typed into the text area
 ```javascript
