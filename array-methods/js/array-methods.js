@@ -23,10 +23,10 @@ planets.forEach(function(planet) {
 const capitalizedPlanets = planets.map(function(planet){
     // take the first character and capitalize it, then add
     // back the original string minus the first letter (slice(1))
-    return planet.charAt(0).toUpperCase() + planet.slice(1);
+    return planet.split("")[0].toUpperCase() + planet.slice(1);
 });
 
-console.log(capitalizedPlanets)
+console.log("capitalized Planets:", capitalizedPlanets)
 
 
 /*
