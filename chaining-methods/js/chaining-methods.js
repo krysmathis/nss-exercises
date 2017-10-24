@@ -18,4 +18,7 @@ integers
 .map(num => num * 1.5 - 1)
 .reduce((prev,curr) => prev + curr);
 
+// Result: 111.5
+
+
 document.querySelector("#result").innerHTML = `Result: ${result}`;
