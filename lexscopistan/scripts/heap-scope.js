@@ -52,6 +52,14 @@ const gemHeapSkope = function () { // No parameter needed
             let gem = GemMine[requestedMineral];
             let remainingKilos = gem.kilograms;
             
+            /* 
+                you can process a max of 5 kilos at a time, but sometimes
+                the remaining kilos are less than 5
+
+                Once you've captured the kilos to process subtract that 
+                amount from the gem's kilo's, which should set it at zero.
+
+            */
             let kilosToProcess = remainingKilos >= 5 ? 5 : remainingKilos;
             gem.kilograms += -kilosToProcess;
 
@@ -64,14 +72,14 @@ const gemHeapSkope = function () { // No parameter needed
 }
 
 /*
-The SkopeManager variable represents the object with the
-`process` method on it.
+    The SkopeManager variable represents the object with the
+    `process` method on it.
 */
 const SkopeManager = gemHeapSkope()
 
 /*
-Create a generator for 30 storage containers, which is how many a hëap-skope
-is equipped with.
+    Create a generator for 30 storage containers, which is how many a hëap-skope
+    is equipped with.
 */
 const storageContainerGenerator = function* () {
     let currentContainer = 0;
@@ -106,7 +114,8 @@ gemSequence.forEach(function(currentGem){
             Once we've depleted a gem, it will return an amount of zero
             Loop through each gem until you get an order with a zero.
         */
-        // intialize an order with a phony amount
+        
+        // intialize an order with an initial value to start while loop
         let order = { "amount": 1 }
 
         while (order.amount > 0){
@@ -123,20 +132,25 @@ gemSequence.forEach(function(currentGem){
             */
 
             if (orderNotZero && containerHasCapacity) {
-                pushToContainer(order)
+                currentContainer.orders.push(order);
+                containerKilograms += order.amount;
 
             } else if (!containerHasCapacity) {
+
+                /*
+                    1. Add container to the heapSkope
+                    2. Create a new container
+                    3. Add the current order to the container
+                    4. Reset the kilograms to the current order, which is the
+                       only object in the container
+                */
                 heapSkopeContainers.push(currentContainer);
                 currentContainer = storageContainerFactory.next().value;
-                containerKilograms = 0;
-                pushToContainer(order);
-            }
+                currentContainer.orders.push(order);
+                containerKilograms = order.amount;
+            } 
         }   
 
-        function pushToContainer(order) {
-            currentContainer.orders.push(order);
-            containerKilograms += order.amount;
-        }
        // }
 });
 
