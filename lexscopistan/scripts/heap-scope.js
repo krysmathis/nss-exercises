@@ -61,7 +61,7 @@ const gemHeapSkope = function () { // No parameter needed
 
             */
             let kilosToProcess = remainingKilos >= 5 ? 5 : remainingKilos;
-            gem.kilograms += -kilosToProcess;
+            gem.kilograms -= kilosToProcess;
 
             return {
                 "mineral": requestedMineral,
@@ -116,9 +116,9 @@ gemSequence.forEach(function(currentGem){
         */
         
         // intialize an order with an initial value to start while loop
-        let order = { "amount": 1 }
+        //let order = { "amount": 1 }
 
-        while (order.amount > 0){
+       do {
             
             order = SkopeManager.process(currentGem);
 
@@ -149,7 +149,8 @@ gemSequence.forEach(function(currentGem){
                 currentContainer.orders.push(order);
                 containerKilograms = order.amount;
             } 
-        }   
+        
+        } while (order.amount > 0)
 
        // }
 });
