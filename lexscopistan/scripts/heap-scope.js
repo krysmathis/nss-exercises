@@ -1,3 +1,4 @@
+{
 const gemHeapSkope = function () { // No parameter needed
     // Resource contained inside
 
@@ -161,7 +162,7 @@ if (currentContainer.orders.length > 0) {
 }
 
 console.log(heapSkopeContainers);
-
+}
 
 
 

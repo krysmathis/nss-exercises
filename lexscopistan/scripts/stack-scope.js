@@ -170,5 +170,5 @@ if (currentContainer.bushels.length > 0) {
     cropStackSkope.containers.push(currentContainer)
 }
 
-console.log(cropStackSkope.containers)
+console.log("Original Stack-Skope Containers: ", cropStackSkope.containers)
 // Take a look at what's in your containers
