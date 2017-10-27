@@ -85,9 +85,9 @@ const SkopeManager = gemHeapSkope()
 const storageContainerGenerator = function* () {
     let currentContainer = 1;
     let maxContainers = 30;
-
+    let maxCapacity = 565;
     while (currentContainer <= maxContainers){
-        yield { "id": currentContainer, "type": "Mineral", "orders": [] }
+        yield { "id": currentContainer, "type": "Mineral", "orders": [], "capacity": maxCapacity }
         currentContainer++;
     }
 };
@@ -103,6 +103,23 @@ let heapSkopeContainers = [];
 let currentContainer = storageContainerFactory.next().value;
 let containerKilograms = 0;
 
+/*
+    loadContainer is responsibility for loading any order > 0 into the current
+    container
+*/
+const loadContainer = function(order) {
+    if (order.amount > 0) {
+        currentContainer.orders.push(order);  
+        currentContainer.capacity -= order.amount; 
+    }
+};      
+
+// call this to bring in a new empty container
+const getNewContainer = function() {
+    console.log('on container: ', currentContainer.id)
+    heapSkopeContainers.push(currentContainer);
+    currentContainer = storageContainerFactory.next().value;
+}
 
 /*
 Process the gems in any order you like until there none
@@ -122,34 +139,17 @@ gemSequence.forEach(function(currentGem){
         do {
                 
                 order = SkopeManager.process(currentGem);
-
-                let orderNotZero = order.amount > 0;
-                let containerHasCapacity = containerKilograms + order.amount <= 565;
-
                 /*
-                    Place the gems in the storage containers, making sure that
-                    once a container has 565 kilograms of gems, you move to the
-                    next one.
+                Place the gems in the storage containers, making sure that
+                once a container has 565 kilograms of gems, you move to the
+                next one.
                 */
+                let containerHasCapacity = currentContainer.capacity - order.amount > 0;
+                if (!containerHasCapacity) {
+                    getNewContainer();
+                 } 
 
-                if (orderNotZero && containerHasCapacity) {
-                    currentContainer.orders.push(order);
-                    containerKilograms += order.amount;
-
-                } else if (!containerHasCapacity) {
-
-                    /*
-                        1. Add container to the heapSkope
-                        2. Create a new container
-                        3. Add the current order to the container
-                        4. Reset the kilograms to the current order, which is the
-                        only object in the container
-                    */
-                    heapSkopeContainers.push(currentContainer);
-                    currentContainer = storageContainerFactory.next().value;
-                    currentContainer.orders.push(order);
-                    containerKilograms = order.amount;
-                } 
+                 loadContainer(order);
             
             } while (order.amount > 0)
 
@@ -161,7 +161,7 @@ if (currentContainer.orders.length > 0) {
     heapSkopeContainers.push(currentContainer);
 }
 
-console.log(heapSkopeContainers);
+console.log('heapSkopeContainers: ', heapSkopeContainers);
 }
 
 

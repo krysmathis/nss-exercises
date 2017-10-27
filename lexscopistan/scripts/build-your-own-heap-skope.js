@@ -106,9 +106,9 @@ const mines = [{
 const mineHeapContainerGenerator = function*() {
     let currentContainer = 1;
     let maximumContainers = 100;
-
+    const maxCapacity = 565;
     while (currentContainer <= maximumContainers) {
-        yield {"id": currentContainer, "type": "Mineral", "orders": [], "kilograms": 0};
+        yield {"id": currentContainer, "type": "Mineral", "orders": [], "capacity": maxCapacity}
         currentContainer++;
     }
 };
@@ -121,6 +121,23 @@ mineHeapSkopeContainers = []
 let currentContainer = mineHeapContainerFactory.next().value;
 let weightLimit = 1000;
 
+/*
+    Container loader who's responsibility it is the loading of containers
+*/
+const loadContainer = function(order) {
+    if (order.amount > 0) {
+        currentContainer.orders.push(order);  
+        currentContainer.capacity -= order.amount; 
+    }
+};      
+
+// call this to bring in a new empty container
+const getNewContainer = function() {
+    mineHeapSkopeContainers.push(currentContainer);
+    currentContainer = mineHeapContainerFactory.next().value;
+}
+
+
 let c = 0;
 mines.forEach(function (mine) {
     console.log(mine);
@@ -131,24 +148,13 @@ mines.forEach(function (mine) {
             do {
                 c++;
                 order = mine.mineManager.process(mineral);
-                let orderNotZero = order.amount > 0;
-                let hasCapacity = currentContainer.kilograms + order.amount <weightLimit;
+                //let orderNotZero = order.amount > 0;
+                let hasCapacity = currentContainer.capacity - order.amount > 0;
                 
-                if (orderNotZero && hasCapacity) {
-
-                    currentContainer.orders.push(order);  
-                    currentContainer.kilograms += order.amount;  
-
-                } else if (!hasCapacity) {
-                    mineHeapSkopeContainers.push(currentContainer);
-                    currentContainer = mineHeapContainerFactory.next().value;
-                    currentContainer.orders.push(order);
-                    currentContainer.kilograms = order.amount;
-                }
-
-                if (c > 1000) {
-                    break;
-                }
+                if (!hasCapacity) {
+                    getNewContainer();
+                } 
+                loadContainer(order);
 
             } while (order.amount > 0)
         } catch (err) {
@@ -176,6 +182,6 @@ try {
     }
 }
 
-console.log(mineHeapSkopeContainers);
+console.log("myHeapSkope: ", mineHeapSkopeContainers);
 
 }
