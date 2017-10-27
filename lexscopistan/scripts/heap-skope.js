@@ -144,7 +144,7 @@ gemSequence.forEach(function(currentGem){
                 once a container has 565 kilograms of gems, you move to the
                 next one.
                 */
-                let containerHasCapacity = currentContainer.capacity - order.amount > 0;
+                let containerHasCapacity = currentContainer.capacity - order.amount >= 0;
                 if (!containerHasCapacity) {
                     getNewContainer();
                  } 

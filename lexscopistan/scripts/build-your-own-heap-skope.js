@@ -17,17 +17,40 @@
     Remember, Hëap Skopes enclose all of the resources they are in charge of processing.
 */
 
-const mineHeapSkopeOne = function () {
+const mineHeapSkope = function () {
 
-    const resources = {
+    const mountain = {
+         "mine1": {
+            
             "coal": {
                 "kilograms": 5302
             },
             "gold": {
                 "kilograms": 2775
             }
+        }, 
+        "mine2" :{
+            "iron": {
+                "kilograms": 3928
+            },
+            "copper": {
+                "kilograms": 901
+            }
         }
+    }
 
+    // determine which mine to pull the resource from
+    const getMine = function(resource) {
+        for(let mine in mountain) {
+            let currentMine = mountain[mine];
+            for (let mineral in currentMine) {
+                if (mineral === resource) {
+                    return currentMine[mineral];
+                }
+            }
+            
+        }
+    } || {};
 
         return {
             "process": 
@@ -36,12 +59,13 @@ const mineHeapSkopeOne = function () {
                         Determine the amount to process, if the existing kilos is greater
                         than the max amount we can process per order use the processMax
                     */
-                    let processMax = 30;
-                    let remainingKilograms = resources[resource].kilograms;
+                    let processMax = 5;
+                    let mineral = getMine(resource);
+                    let remainingKilograms = mineral.kilograms;
                     let kilosToProcess = remainingKilograms > processMax ? processMax : remainingKilograms;
 
                     //  Decrement the resource kilograms
-                    resources[resource].kilograms -= kilosToProcess;
+                    mineral.kilograms -= kilosToProcess;
 
                     return {
                         "mineral": resource,
@@ -52,56 +76,8 @@ const mineHeapSkopeOne = function () {
         }
 }
 
-const mineHeapSkopeTwo = function () {
-    
-        const resources = {
-                "iron": {
-                    "kilograms": 3928
-                },
-                "copper": {
-                    "kilograms": 901
-                }
-            }
-    
-    
-            return {
-                "process": 
-                    function (resource) {
-                        /*
-                            Determine the amount to process, if the existing kilos is greater
-                            than the max amount we can process per order use the processMax
-                        */
-                        let processMax = 30;
-                        let remainingKilograms = resources[resource].kilograms;
-                        let kilosToProcess = remainingKilograms > processMax ? processMax : remainingKilograms;
-    
-                        //  Decrement the resource kilograms
-                        resources[resource].kilograms -= kilosToProcess;
-    
-                        return {
-                            "mineral": resource,
-                            "amount": kilosToProcess // Change this to the correct amount
-                        }
-                    }
-                
-            }
-    }
 
-const mineHeapSkopeOneManager = mineHeapSkopeOne();
-const mineHeapSkopeTwoManager = mineHeapSkopeTwo();
-
-
-const mineralsInMineOne = ["coal", "gold"];
-const mineralsInMineTwo = ["iron", "copper"];
-
-const mines = [{
-    "mineManager": mineHeapSkopeOneManager,
-    "minerals": mineralsInMineOne
-}, 
-{   
-    "mineManager": mineHeapSkopeTwoManager,
-    "minerals": mineralsInMineTwo
-}]
+const mineHeapSkopeManager = mineHeapSkope();
 
 const mineHeapContainerGenerator = function*() {
     let currentContainer = 1;
@@ -119,10 +95,9 @@ mineHeapSkopeContainers = []
 
 // create the first, empty container
 let currentContainer = mineHeapContainerFactory.next().value;
-let weightLimit = 1000;
-
 /*
-    Container loader who's responsibility it is the loading of containers
+    loadContainer is reponsible for loading containers if the
+    order it receives is greater than zero
 */
 const loadContainer = function(order) {
     if (order.amount > 0) {
@@ -138,38 +113,44 @@ const getNewContainer = function() {
 }
 
 
-let c = 0;
-mines.forEach(function (mine) {
-    console.log(mine);
-    mine.minerals.forEach(mineral => {
+const mineralOrder = ["coal", "gold", "iron", "copper"];
+mineralOrder.forEach(function (mineral) {
 
-        let order;
+    let order;
+    do {
+        /* 
+        1. Generate an order
+        2. Check if the order will fit in the current container
+        3. If false, get a new container
+        4. Send the container to the loader
+        */
+        order = mineHeapSkopeManager.process(mineral);
+        
         try {
-            do {
-                c++;
-                order = mine.mineManager.process(mineral);
-                //let orderNotZero = order.amount > 0;
-                let hasCapacity = currentContainer.capacity - order.amount > 0;
+            let hasCapacity = currentContainer.capacity - order.amount >= 0;
                 
                 if (!hasCapacity) {
                     getNewContainer();
                 } 
+                
                 loadContainer(order);
+                
+        } catch (err) {
+                // TypeError is thrown when there are no more containers
+                if (err instanceof TypeError) {
+                    console.log("You've run out of containers!")
+                } else {
+                    console.log(err);
+                }
+        }
 
             } while (order.amount > 0)
-        } catch (err) {
-            if (err instanceof TypeError) {
-                console.log("You've run out of containers!")
-            } else {
-                console.log(err);
-            }
-        }
+        
 
 
     })
 
-})
-
+    // Container clean-up: push any remaining containers to the collection
 try {
     if (currentContainer.orders.length > 0) {
         mineHeapSkopeContainers.push(currentContainer);
