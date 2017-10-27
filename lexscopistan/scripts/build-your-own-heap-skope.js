@@ -126,8 +126,8 @@ mineralOrder.forEach(function (mineral) {
         */
         order = mineHeapSkopeManager.process(mineral);
         
-        try {
-            let hasCapacity = currentContainer.capacity - order.amount >= 0;
+        try {   
+                let hasCapacity = currentContainer.capacity - order.amount >= 0;
                 
                 if (!hasCapacity) {
                     getNewContainer();
@@ -144,13 +144,11 @@ mineralOrder.forEach(function (mineral) {
                 }
         }
 
-            } while (order.amount > 0)
+    } while (order.amount > 0)
         
+    }) // end of forEach
 
-
-    })
-
-    // Container clean-up: push any remaining containers to the collection
+// Container clean-up: push any remaining containers to the collection
 try {
     if (currentContainer.orders.length > 0) {
         mineHeapSkopeContainers.push(currentContainer);
