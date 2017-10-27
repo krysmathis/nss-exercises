@@ -115,43 +115,43 @@ gemSequence.forEach(function(currentGem){
             Once we've depleted a gem, it will return an amount of zero
             Loop through each gem until you get an order with a zero.
         */
-        
+
         // intialize an order with an initial value to start while loop
-        //let order = { "amount": 1 }
+        let order;
 
-       do {
-            
-            order = SkopeManager.process(currentGem);
+        do {
+                
+                order = SkopeManager.process(currentGem);
 
-            let orderNotZero = order.amount > 0;
-            let containerHasCapacity = containerKilograms + order.amount <= 565;
-
-            /*
-                Place the gems in the storage containers, making sure that
-                once a container has 565 kilograms of gems, you move to the
-                next one.
-            */
-
-            if (orderNotZero && containerHasCapacity) {
-                currentContainer.orders.push(order);
-                containerKilograms += order.amount;
-
-            } else if (!containerHasCapacity) {
+                let orderNotZero = order.amount > 0;
+                let containerHasCapacity = containerKilograms + order.amount <= 565;
 
                 /*
-                    1. Add container to the heapSkope
-                    2. Create a new container
-                    3. Add the current order to the container
-                    4. Reset the kilograms to the current order, which is the
-                       only object in the container
+                    Place the gems in the storage containers, making sure that
+                    once a container has 565 kilograms of gems, you move to the
+                    next one.
                 */
-                heapSkopeContainers.push(currentContainer);
-                currentContainer = storageContainerFactory.next().value;
-                currentContainer.orders.push(order);
-                containerKilograms = order.amount;
-            } 
-        
-        } while (order.amount > 0)
+
+                if (orderNotZero && containerHasCapacity) {
+                    currentContainer.orders.push(order);
+                    containerKilograms += order.amount;
+
+                } else if (!containerHasCapacity) {
+
+                    /*
+                        1. Add container to the heapSkope
+                        2. Create a new container
+                        3. Add the current order to the container
+                        4. Reset the kilograms to the current order, which is the
+                        only object in the container
+                    */
+                    heapSkopeContainers.push(currentContainer);
+                    currentContainer = storageContainerFactory.next().value;
+                    currentContainer.orders.push(order);
+                    containerKilograms = order.amount;
+                } 
+            
+            } while (order.amount > 0)
 
        // }
 });
