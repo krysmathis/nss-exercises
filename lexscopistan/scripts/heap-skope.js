@@ -83,7 +83,7 @@ const SkopeManager = gemHeapSkope()
     is equipped with.
 */
 const storageContainerGenerator = function* () {
-    let currentContainer = 0;
+    let currentContainer = 1;
     let maxContainers = 30;
 
     while (currentContainer <= maxContainers){
