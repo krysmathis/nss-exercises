@@ -50,7 +50,7 @@ const mineHeapSkope = function () {
             }
             
         }
-    } || {};
+    } || {kilograms: 0};
 
         return {
             "process": 
