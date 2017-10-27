@@ -82,6 +82,7 @@ const SkopeManager = gemHeapSkope()
     Create a generator for 30 storage containers, which is how many a hëap-skope
     is equipped with.
 */
+const hasRemainingContainers = true;
 const storageContainerGenerator = function* () {
     let currentContainer = 1;
     let maxContainers = 30;
@@ -89,7 +90,9 @@ const storageContainerGenerator = function* () {
     while (currentContainer <= maxContainers){
         yield { "id": currentContainer, "type": "Mineral", "orders": [], "capacity": maxCapacity }
         currentContainer++;
+
     }
+    hasRemainingContainers = false;
 };
 
 const storageContainerFactory = storageContainerGenerator();
@@ -116,7 +119,6 @@ const loadContainer = function(order) {
 
 // call this to bring in a new empty container
 const getNewContainer = function() {
-    console.log('on container: ', currentContainer.id)
     heapSkopeContainers.push(currentContainer);
     currentContainer = storageContainerFactory.next().value;
 }
@@ -144,23 +146,33 @@ gemSequence.forEach(function(currentGem){
                 once a container has 565 kilograms of gems, you move to the
                 next one.
                 */
-                let containerHasCapacity = currentContainer.capacity - order.amount >= 0;
-                if (!containerHasCapacity) {
-                    getNewContainer();
-                 } 
+                try {
 
-                 loadContainer(order);
-            
+                    let containerHasCapacity = currentContainer.capacity - order.amount >= 0;
+                    if (!containerHasCapacity) {
+                        getNewContainer();
+                    } 
+
+                    loadContainer(order);
+
+                } catch (err) {
+                    if (err instanceof TypeError) {
+                        console.log("You've run out of containers");
+                    } else {
+                        console.log(err);
+                    }
+                }
             } while (order.amount > 0)
 
        // }
 });
 
-// Clean-up any half full containers
-if (currentContainer.orders.length > 0) {
-    heapSkopeContainers.push(currentContainer);
+if (hasRemainingContainers) {
+    // Clean-up any half full containers
+    if (currentContainer.orders.length > 0) {
+        heapSkopeContainers.push(currentContainer);
+    }
 }
-
 console.log('heapSkopeContainers: ', heapSkopeContainers);
 }
 

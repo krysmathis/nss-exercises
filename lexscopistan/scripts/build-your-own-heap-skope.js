@@ -81,7 +81,7 @@ const mineHeapSkopeManager = mineHeapSkope();
 
 const mineHeapContainerGenerator = function*() {
     let currentContainer = 1;
-    let maximumContainers = 100;
+    let maximumContainers = 30;
     const maxCapacity = 565;
     while (currentContainer <= maximumContainers) {
         yield {"id": currentContainer, "type": "Mineral", "orders": [], "capacity": maxCapacity}
