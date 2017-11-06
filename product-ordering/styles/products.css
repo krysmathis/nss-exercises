@@ -1,0 +1,54 @@
+.product {
+    display: grid;
+    grid-template-columns: 180px repeat(2, 1fr);
+    grid-template-rows: 50px 55px 70px 1fr;
+    grid-template-areas: 
+    "image title title"
+    "image quantity price"
+    "image desc desc"
+    "reviews reviews reviews";
+    padding: 10px;
+    margin-bottom: 30px;
+    background-color: white;
+}
+
+.product__title {
+    grid-area: title;
+    font-size: 2.5em;
+    font-weight: bold;
+}
+
+.product__desc {
+    grid-area: desc;
+    font-size: 1.5em;
+    border-bottom: 1px solid gray;
+}
+
+.product__price {
+    grid-area: price;
+    font-size: 1.25em;
+}
+
+.product__quantity {
+    grid-area: quantity;
+    font-size: 1.25em;
+}
+
+.product__image {
+    grid-area: image;
+}
+
+.product__reviewWrapper {
+    grid-area: reviews;
+    margin-top: 50px;
+    margin-left: 20px;
+    box-sizing: border-box;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.product__review {
+    font-weight: normal;
+    font-size: .75em;
+    margin: 20px 20px 20px 0;
+}
