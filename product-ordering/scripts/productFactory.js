@@ -1,18 +1,13 @@
 /**
  * Factory function for the product
  */
-const productIdGenerator = function* () {
-    let id = 1;
-    while(true){
-        yield id;
-        id++;
-    }
-};
+let idGen= require("./idGenerator");
+const productIdFactory = idGen();
 
-const productIdFactory = productIdGenerator();
+const products = [];
 
 const productFactory = function (title, shortDesc, price, quantity, image) {
-    return Object.create(null, {
+    products.push( Object.create(null, {
         "id": {
             value: productIdFactory.next().value,
             enumerable: true
@@ -37,15 +32,15 @@ const productFactory = function (title, shortDesc, price, quantity, image) {
             value: image,
             enumerable: true
         }
-    });
+    }));
 };
 
-const product1 = productFactory(
+productFactory(
     "Unilab", 
     "Imagine Timothy Dalton at a school rally?", 
     10.00, 5, "http://via.placeholder.com/150x150");
 
-const product2 = productFactory(
+productFactory(
     "Singletop", 
     "Organically grow the holistic world view of disruptive innovation via workplace diversity and empowerment.", 
     10.00, 5, "http://via.placeholder.com/150x150");
@@ -60,7 +55,5 @@ const product2 = productFactory(
 //     "A short description of Product1", 
 //     10.00, 5, "http://via.placeholder.com/150x150");
 
-const products = [];
-products.push(product1,product2);
 
 module.exports = products;

@@ -25,7 +25,7 @@ module.exports = function(grunt) {
             },
             scripts: {
                 files: ["scripts/*.js"],
-                tasks: ["eslint","browserify"],
+                tasks: ["eslint","browserify","uglify"],
                 options: {
                     spawn: false,
                 },

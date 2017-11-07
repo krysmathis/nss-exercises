@@ -1,13 +1,7 @@
-const reviewIdGenerator = function* () {
-    let id = 1;
-    while (true) {
-        yield id;
-        id++;
-    }
-};
-
 // initiate id gen
-const reviewIdFactory = reviewIdGenerator();
+const idGenerator = require("./idGenerator");
+const reviewIdFactory = idGenerator();
+
 // append to review array
 const reviews = [];
 
