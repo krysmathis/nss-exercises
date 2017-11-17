@@ -9,18 +9,18 @@ $(document).ready(function() {
         let categories = [];
 
         $.ajax({
-            "url": "../products.json",
+            "url": "data/products.json",
             "method": "GET"
         })
-        .then(function(productsDB) 
+        .then(function(productsData) 
         {
-            products = productsDB.products;
+            products = productsData.products;
             $.ajax({
-                "url": "../categories.json",
+                "url": "data/categories.json",
                 "method": "GET"
             })
-            .then(function(categoryDB) {            
-                categories = categoryDB.categories;
+            .then(function(categoryData) {            
+                categories = categoryData.categories;
                 const selection = $(".discounts__selection").val();
                 callback(products,categories,selection);
             })
@@ -29,13 +29,16 @@ $(document).ready(function() {
 
     function updateDOM(products,categories,selection) {
 
+        // process discount and selection options
         category  = categories.find(c=> c.season_discount === selection) || {id: null, discount: 0};
         const category_id = category.id;
         const discount = 1 * (1-category.discount.toPrecision());
 
-        // get elements to use
+        // get elements to use for the display
         const displayEl = $(".products");
         const discountsEl = $(".discounts__selection");
+
+        // clear the existing HTML
         let displayHTML = "";
         products.forEach(product => {
             let productCategory = categories.find(c=> c.id === product.category_id);
@@ -53,7 +56,8 @@ $(document).ready(function() {
             }
         })
         displayEl.html(displayHTML);
-        // Refresh the select options
+        
+        // Refresh the select options to show the properly selected option
         discountsEl.empty();
         discountsEl.append("<option value=''></option>")
         categories.forEach(category => {
