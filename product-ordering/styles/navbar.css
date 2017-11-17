@@ -39,10 +39,10 @@
   .nav__link:hover {
     background-color: white;
     font-weight: bold;
+    color: black;
   }
   
   .nav__link:hover {
-    color: black;
   }
   
   .nav__link {
@@ -50,8 +50,8 @@
     color: white;
     font-size: 1em;
     width: 25%;
-    height: 100%;
-    padding-top: 22px;
+    height: 80%;
+    padding-top: 12px;
     transition: background-color .5s ease-in-out 0s;
   }
   

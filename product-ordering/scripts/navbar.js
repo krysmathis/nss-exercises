@@ -118,7 +118,10 @@ const addNavbarMenuEventListeners = function() {
     window.addEventListener("resize", () => {
         menu.style.display = "none";
     });
+
 };
+
+
 
 function populateNav(brand) {
     populateNavBar(brand);

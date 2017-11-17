@@ -11,7 +11,10 @@
     margin-bottom: 30px;
     background-color: white;
 }
-
+/* 
+.siteHeader {
+    height: 150px;
+} */
 .product__title {
     grid-area: title;
     font-size: 2.5em;
