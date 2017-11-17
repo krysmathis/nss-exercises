@@ -1,17 +1,13 @@
 $(document).ready(function() {
     // Initialize the page
     getProducts(updateDOM);
-    
-    // globals
-    let products = [];
-    let categories = [];
-
-    // updateDOM variables
-    let category_id = null;
-    let discount = null;
 
     // async function to pull JSON data
     function getProducts(callback) {
+        
+        let products = [];
+        let categories = [];
+
         $.ajax({
             "url": "../products.json",
             "method": "GET"
@@ -25,12 +21,18 @@ $(document).ready(function() {
             })
             .then(function(categoryDB) {            
                 categories = categoryDB.categories;
-                callback();
+                const selection = $(".discounts__selection").val();
+                callback(products,categories,selection);
             })
         }
     )}
 
-    function updateDOM() {
+    function updateDOM(products,categories,selection) {
+
+        category  = categories.find(c=> c.season_discount === selection) || {id: null, discount: 0};
+        const category_id = category.id;
+        const discount = 1 * (1-category.discount.toPrecision());
+
         // get elements to use
         const displayEl = $(".products");
         const discountsEl = $(".discounts__selection");
@@ -51,7 +53,6 @@ $(document).ready(function() {
             }
         })
         displayEl.html(displayHTML);
-        
         // Refresh the select options
         discountsEl.empty();
         discountsEl.append("<option value=''></option>")
@@ -66,10 +67,6 @@ $(document).ready(function() {
     
     // event listener for the selector...
     $(".discounts").change(function(e) {
-        const selection = e.target.value;
-        category  = categories.find(c=> c.season_discount === selection);
-        category_id = category.id;
-        discount = 1 * (1-category.discount.toPrecision());
         // repull the data
         getProducts(updateDOM);
     })
